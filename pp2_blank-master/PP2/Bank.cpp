@@ -20,7 +20,8 @@ void CBank::UpdateClientBalance(CBankClient &client, int value)
 {
 	int totalBalance = GetTotalBalance();
 	std::cout << "Client " << client.GetId() << " initiates reading total balance. Total = " << totalBalance << "." << std::endl;
-	
+	SetClientBalance(client, value);
+
 	SomeLongOperations();
 	totalBalance += value;
 
@@ -37,10 +38,34 @@ void CBank::UpdateClientBalance(CBankClient &client, int value)
 	SetTotalBalance(totalBalance);
 }
 
+vector<CBankClient> CBank::GetClients()
+{
+	return m_clients;
+}
+
 
 int CBank::GetTotalBalance()
 {
 	return m_totalBalance;
+}
+
+void CBank::SetClientBalance(CBankClient client, int value)
+{
+	auto clientAndBalance = m_clientAndBalance.find(client.GetId());
+
+	if (clientAndBalance != m_clientAndBalance.end())
+	{
+		clientAndBalance->second += value;
+	}
+	else
+	{
+		m_clientAndBalance.emplace(pair<int, int>(client.GetId(), value));
+	}
+}
+
+int CBank::GetClientBalance(CBankClient client)
+{
+	return m_clientAndBalance.at(client.GetId());
 }
 
 
@@ -51,5 +76,5 @@ void CBank::SetTotalBalance(int value)
 
 void CBank::SomeLongOperations()
 {
-	// TODO
+	Sleep(1000);
 }
