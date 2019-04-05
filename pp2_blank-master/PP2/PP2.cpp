@@ -3,8 +3,28 @@
 #include "BankClient.h"
 #include <string>
 
+void ShowHelp()
+{
+	cout << "To launch the application, you need to pass 2 arguments: " << endl;
+	cout << "	1) count of the Bank Client object" << endl;
+	cout << "	2)primitive type: " << endl;
+	cout << "		0 - mutex" << endl;
+	cout << "		1 - critical section" << endl;
+}
+
 int main(int argc, char *argv[])
 {
+
+	if (argc == 2)
+	{
+		string command = argv[1];
+		if (command == "/?")
+		{
+			ShowHelp();
+			return 1;
+		}
+	}
+
 	if (argc != 3)
 	{
 		return 1;
