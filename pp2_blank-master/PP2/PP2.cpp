@@ -5,22 +5,25 @@
 
 int main(int argc, char *argv[])
 {
-	CBank* bank = new CBank();
+	if (argc != 3)
+	{
+		return 1;
+	}
 
-	if (argc > 1)
+	int lockTool = atoi(argv[2]);
+
+	if (lockTool != 0 && lockTool != 1)
 	{
-		for (int i = 0; i < atoi(argv[1]); i++)
-		{
-			bank->CreateClient();
-		}
+		return 1;
 	}
-	else
+
+	CBank* bank = new CBank(lockTool);
+
+	for (int i = 0; i < atoi(argv[1]); i++)
 	{
-		for (int i = 0; i < 2; i++)
-		{
 			bank->CreateClient();
-		}
 	}
+
 
 	// TODO: WaitForMultipleObjects
 	string command = "";

@@ -1,10 +1,20 @@
 #include "Bank.h"
 
-CBank::CBank()
+CBank::CBank(int lockTool)
 {
 	m_clients = std::vector<CBankClient>();
 	m_totalBalance = 0;
+	InitializeCriticalSection(&m_criticalSection);
+	if (lockTool = 0)
+	{
+		m_lock_tool = Mutex;
+	}
+	else
+	{
+		m_lock_tool = CriticalSection;
+	}
 }
+
 
 
 CBankClient* CBank::CreateClient()
@@ -18,11 +28,12 @@ CBankClient* CBank::CreateClient()
 
 void CBank::UpdateClientBalance(CBankClient &client, int value)
 {
+	ToLockSection();
 	int totalBalance = GetTotalBalance();
 	std::cout << "Client " << client.GetId() << " initiates reading total balance. Total = " << totalBalance << "." << std::endl;
-	SetClientBalance(client, value);
 
 	SomeLongOperations();
+	SetClientBalance(client, value);
 	totalBalance += value;
 
 	std::cout
@@ -36,6 +47,7 @@ void CBank::UpdateClientBalance(CBankClient &client, int value)
 	}
 
 	SetTotalBalance(totalBalance);
+	ToUnlockSection();
 }
 
 vector<CBankClient> CBank::GetClients()
@@ -66,6 +78,26 @@ void CBank::SetClientBalance(CBankClient client, int value)
 int CBank::GetClientBalance(CBankClient client)
 {
 	return m_clientAndBalance.at(client.GetId());
+}
+
+void CBank::ToLockSection()
+{
+	if (m_lock_tool == CriticalSection) {
+		EnterCriticalSection(&m_criticalSection);
+	}
+	else if (m_lock_tool == Mutex) {
+		m_mutex.lock();
+	}
+}
+
+void CBank::ToUnlockSection()
+{
+	if (m_lock_tool == CriticalSection) {
+		LeaveCriticalSection(&m_criticalSection);
+	}
+	else if (m_lock_tool == Mutex) {
+		m_mutex.unlock();
+	}
 }
 
 
