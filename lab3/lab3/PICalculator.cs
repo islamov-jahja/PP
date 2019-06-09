@@ -74,7 +74,7 @@ namespace lab3
                 sum = sum + 4.0 / (1.0 + x * x);
             }
 
-            settingOfThread.calculator.m_criticalSection.Enter();
+            settingOfThread.calculator.m_criticalSection.TryEnter(settingOfThread.calculator.m_timeout);
             settingOfThread.calculator.m_PI += sum * step;
             settingOfThread.calculator.m_criticalSection.Leave();
         }
