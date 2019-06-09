@@ -37,6 +37,8 @@
             this.pathToSaveFile = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.timeString = new System.Windows.Forms.TextBox();
+            this.countOfIterationBar = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // exitButton
@@ -115,13 +117,30 @@
             this.timeString.Multiline = true;
             this.timeString.Name = "timeString";
             this.timeString.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.timeString.Size = new System.Drawing.Size(255, 186);
+            this.timeString.Size = new System.Drawing.Size(175, 186);
             this.timeString.TabIndex = 9;
+            // 
+            // textBox1
+            // 
+            this.countOfIterationBar.Location = new System.Drawing.Point(201, 86);
+            this.countOfIterationBar.Name = "countOfIterationBar";
+            this.countOfIterationBar.Size = new System.Drawing.Size(48, 20);
+            this.countOfIterationBar.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(91, 74);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(90, 32);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "количество итераций";
             // 
             // Form1
             // 
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(555, 413);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.countOfIterationBar);
             this.Controls.Add(this.timeString);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pathToSaveFile);
@@ -148,6 +167,8 @@
         private System.Windows.Forms.TextBox pathToSaveFile;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox timeString;
+        private System.Windows.Forms.TextBox countOfIterationBar;
+        private System.Windows.Forms.Label label4;
     }
 }
 

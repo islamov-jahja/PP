@@ -37,22 +37,50 @@ namespace lab4
 
         private void DoSync(object sender, EventArgs e)
         {
+            int countOfIteration = 0;
+            int.TryParse(countOfIterationBar.Text, out countOfIteration);
+
+            if (countOfIteration <= 0)
+                countOfIteration = 1;
+
+            long sumTimer = 0;
             Stopwatch timer = new Stopwatch();
-            timer.Start();
-            List<String> listWithCurrencies = GetListWithCurrenciesSync();
-            var allCurrencies = GetAllCurrenciesSync();
-            WriteToFile(allCurrencies, listWithCurrencies);
-            timer.Stop();
-            timeString.Text += $"время(мс) sync: {timer.ElapsedMilliseconds}" + "\n";
+
+            for (int i = 0; i < countOfIteration; i++)
+            {
+                timer.Start();
+                List<String> listWithCurrencies = GetListWithCurrenciesSync();
+                var allCurrencies = GetAllCurrenciesSync();
+                WriteToFile(allCurrencies, listWithCurrencies);
+                timer.Stop();
+                timeString.Text += $"время(мс) sync: {timer.ElapsedMilliseconds}" + "\n";
+                sumTimer += timer.ElapsedMilliseconds;
+            }
+
+            timeString.Text += $"среднее время(мс) sync: {sumTimer/countOfIteration}" + "\n";
         }
 
         private async void DoAsync(object sender, EventArgs e)
         {
+            int countOfIteration;
+            int.TryParse(countOfIterationBar.Text, out countOfIteration);
+
+            if (countOfIteration <= 0)
+                countOfIteration = 1;
+
+            long sumTimer = 0;
             Stopwatch timer = new Stopwatch();
-            timer.Start();
-            WriteToFileAsync(await GetAllCurrenciesAsync(), await GetListWithCurrenciesAsync());
-            timer.Stop();
-            timeString.Text += $"время(мс) async: {timer.ElapsedMilliseconds}" + "\n";
+
+            for (int i = 0; i < countOfIteration; i++)
+            {
+                timer.Start();
+                WriteToFileAsync(await GetAllCurrenciesAsync(), await GetListWithCurrenciesAsync());
+                timer.Stop();
+                timeString.Text += $"время(мс) async: {timer.ElapsedMilliseconds}" + "\n";
+                sumTimer += timer.ElapsedMilliseconds;
+            }
+
+            timeString.Text += $"среднее время(мс) async: {sumTimer / countOfIteration}" + "\n";
         }
 
         private async Task<List<String>> GetListWithCurrenciesAsync()
